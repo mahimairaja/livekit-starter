@@ -1,113 +1,111 @@
-# Backend template
+<picture>
+<source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png">
+<source media="(prefers-color-scheme: light)" srcset="assets/banner-light.png">
+<img src="docs/assets/banner-light.png" alt="Voice AI: a curated learning path for building real-time voice agents" width="100%" />
+</picture>
 
-A FastAPI starter with clean layering (API → service → repository → model),
-dependency injection, async SQLModel/PostgreSQL, JWT auth, and an MCP tool
-surface. Ships with a single `User` domain you can copy as the pattern for new
-resources.
+<h1 align="center">LiveKit Voice AI Starter</h1>
 
-## Stack
+<p align="center">
+  <b>Talk to an AI agent in your browser, in minutes.</b><br/>
+  A full-stack, production-minded starter for real-time voice agents: a LiveKit
+  voice worker, a FastAPI token server, and a React frontend built on LiveKit's
+  Agents UI, wired together and ready to extend.
+</p>
 
-- **FastAPI** (+ `fastapi[standard]`) for HTTP and OpenAPI
-- **fastapi-mcp** to expose endpoints tagged `mcp-tools` as MCP tools at `/mcp`
-- **SQLModel** + async **SQLAlchemy** + **asyncpg** (PostgreSQL)
-- **dependency-injector** for wiring config / DB / repositories / services
-- **PyJWT** + PBKDF2 password hashing for auth
-- **loguru** / Rich logging, **asgi-correlation-id**, optional **Sentry**
-- Tooling: **uv**, **ruff**, **mypy**, **pytest**
+<p align="center">
+  <a href="https://livekit.io"><img src="assets/badges/livekit.svg" alt="LiveKit" height="30"></a>
+  <a href="https://www.python.org"><img src="assets/badges/python.svg" alt="Python" height="30"></a>
+  <a href="https://fastapi.tiangolo.com"><img src="assets/badges/fastapi.svg" alt="FastAPI" height="30"></a>
+  <a href="https://react.dev"><img src="assets/badges/react.svg" alt="React" height="30"></a>
+  <a href="https://www.typescriptlang.org"><img src="assets/badges/typescript.svg" alt="TypeScript" height="30"></a>
+  <a href="https://tailwindcss.com"><img src="assets/badges/tailwind.svg" alt="Tailwind CSS" height="30"></a>
+</p>
 
-## Layout
+<p align="center">
+  <a href="LICENSE"><img src="assets/badges/license-mit.svg" alt="MIT License" height="30"></a>
+  <a href="../../issues"><img src="assets/badges/prs-welcome.svg" alt="PRs welcome" height="30"></a>
+</p>
+
+---
+
+Most voice-AI demos are a single script. This is the whole loop, structured the
+way you'd actually ship it, and split into three pieces you can run, deploy, and
+swap independently.
+
+## What's inside
+
+| Package         | What it is                                                                                                                                                                  |
+| --------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`agent/`**    | A LiveKit voice worker: Deepgram `nova-3` STT, OpenAI `gpt-4.1-mini`, Cartesia TTS, Silero VAD, and the LiveKit multilingual turn detector. Web and SIP, explicit dispatch. |
+| **`backend/`**  | A FastAPI service that mints LiveKit room tokens (`POST /api/v1/token`), with a clean API → service → repository layout you copy to add resources.                          |
+| **`frontend/`** | React + Vite + Tailwind using LiveKit's Agents UI components: audio visualizer, live transcript, and text chat.                                                             |
+
+Typed end to end, tested, linted, with CI and a pre-commit hook across all three.
+
+## How it fits together
 
 ```
-src/
-  main.py            ASGI app factory (AppCreator) — exports `app`
-  core/              config, DI container, database, security (JWT), events, exceptions
-  api/
-    routes.py        aggregates versioned routers under /api/v1
-    mcps.py          placeholder router for MCP-only endpoints
-    endpoints/
-      health.py      GET /health, /health/detailed   (public)
-      users.py       /api/v1/users CRUD + auth        (JWT-protected, except register/login)
-  models/            SQLModel tables (BaseModel + User)
-  schemas/           Pydantic request/response DTOs
-  repository/        generic CRUD repository + UsersRepository
-  services/          business logic (BaseService + UsersService)
-  util/              singleton, query builder, schema helpers
-tests/               pytest (DB-free unit tests for health/security/validation)
+  React app  ──POST /api/v1/token──▶  Backend  ──signs token──▶  React joins room
+      │                                                               │
+      └───────────────── connects to LiveKit room ◀──────────────────┘
+                                   │
+                  agent_name dispatches  ──▶  Agent worker joins
+                                   │
+                         mic ▶ STT ▶ LLM ▶ TTS ▶ speaker  (over WebRTC)
 ```
+
+The backend and agent share the same LiveKit credentials, so a backend-minted
+token is valid for the room the agent joins. Works against self-hosted LiveKit
+or LiveKit Cloud.
 
 ## Quickstart
 
-```bash
-cp .env.example .env          # then edit DB_* and JWT_SECRET_KEY
-uv sync                       # install deps into .venv
-
-# Create tables (dev convenience; use migrations for real projects)
-uv run python -c "import asyncio; from src.main import db; asyncio.run(db.create_database())"
-
-# Run the API
-uv run uvicorn src.main:app --reload
-# OpenAPI docs:  http://127.0.0.1:8000/docs
-# MCP endpoint:  http://127.0.0.1:8000/mcp
-```
-
-`uv run uvicorn main:app` also works (root `main.py` re-exports `app`).
-
-## Auth flow
-
-| Method | Path                     | Access            | MCP tool     |
-| ------ | ------------------------ | ----------------- | ------------ |
-| POST   | `/api/v1/users/register` | public            | -            |
-| POST   | `/api/v1/users/login`    | public            | -            |
-| GET    | `/api/v1/users/me`       | any logged-in     | -            |
-| GET    | `/api/v1/users`          | admin only        | `list_users` |
-| GET    | `/api/v1/users/{id}`     | self or admin     | `get_user`   |
-| PATCH  | `/api/v1/users/{id}`     | self or admin     | -            |
-| DELETE | `/api/v1/users/{id}`     | self or admin     | -            |
-| GET    | `/health`, `/health/detailed` | public       | -            |
-
-Access control: a Bearer token is required for everything except register, login,
-and health. Ownership is enforced (you can only read/update/delete your own
-account); admins (`is_superuser`) may act on any account and list all users. The
-public update schema deliberately omits `is_active` / `is_superuser` to prevent
-mass-assignment privilege escalation.
-
-`register` always creates a non-admin user. Promote the first admin out-of-band,
-e.g. `UPDATE users SET is_superuser = true WHERE email = 'you@example.com';`
-(or in a seed script / migration).
+You'll need a LiveKit project (URL + API key/secret) and provider keys
+(OpenAI, Deepgram, Cartesia). Run each in its own terminal:
 
 ```bash
-# register, then login to get a token
-curl -s localhost:8000/api/v1/users/register \
-  -H 'content-type: application/json' \
-  -d '{"email":"a@b.com","password":"Password1","full_name":"A B"}'
+# 1. Backend: token server (http://localhost:8000)
+cd backend && cp .env.example .env   # add LIVEKIT_* + JWT_SECRET_KEY
+uv sync && uv run uvicorn src.main:app --reload
 
-TOKEN=$(curl -s localhost:8000/api/v1/users/login \
-  -H 'content-type: application/json' \
-  -d '{"email":"a@b.com","password":"Password1"}' | python -c 'import sys,json;print(json.load(sys.stdin)["access_token"])')
+# 2. Agent: voice worker
+cd agent && cp .env.example .env      # add LIVEKIT_*, OPENAI/DEEPGRAM/CARTESIA keys
+uv sync && uv run python main.py dev
 
-curl -s localhost:8000/api/v1/users/me -H "authorization: Bearer $TOKEN"
+# 3. Frontend: web client (http://localhost:5173)
+cd frontend && cp .env.example .env   # point VITE_TOKEN_ENDPOINT at the backend
+pnpm install && pnpm dev
 ```
 
-## Adding a new resource
+Open `http://localhost:5173`, click **Start conversation**, allow the mic, and talk.
 
-Copy the `User` slice: `models/<x>.py`, `schemas/<x>_schemas.py`,
-`repository/<x>_repository.py` (subclass `BaseRepository`),
-`services/<x>_service.py` (subclass `BaseService`), `api/endpoints/<x>.py`,
-then register the repository/service in `core/container.py`, add the module to
-the container's `wiring_config`, and include the router in `api/routes.py`.
+> No frontend yet? Talk to the agent from your terminal with
+> `cd agent && uv run python main.py console`.
 
-## Dev commands
+## Stack
 
-```bash
-uv run ruff check .
-uv run ruff format .
-uv run mypy src
-uv run pytest
-```
+| Layer           | Default                                                                       |
+| --------------- | ----------------------------------------------------------------------------- |
+| STT / LLM / TTS | Deepgram `nova-3` · OpenAI `gpt-4.1-mini` · Cartesia (all swappable)          |
+| Realtime        | LiveKit Agents (`livekit-agents`), WebRTC, Silero VAD, turn detector          |
+| Backend         | FastAPI, async SQLModel/Postgres, dependency-injector, PyJWT, `livekit-api`   |
+| Frontend        | React 19, Vite, TypeScript, Tailwind v4, shadcn + LiveKit Agents UI           |
+| Tooling         | uv, ruff, mypy, pytest · ESLint, Vitest · pre-commit, GitHub Actions, Codecov |
 
-## Docker
+## Highlights
 
-```bash
-docker build -t backend .
-docker run --rm -p 8000:8000 --env-file .env backend
-```
+- **One command per service** to run locally; one `.env.example` each.
+- **Web and telephony** (SIP) on the same agent, via a single participant branch.
+- **Swappable providers** and self-hosted ↔ LiveKit Cloud with a one-line change.
+- **Standard token endpoint** so LiveKit client SDKs connect with zero glue.
+- **Copy-to-extend** patterns: a `User` slice in the backend, a bare `Assistant` in the agent.
+
+## Docs
+
+Each package has its own README with details:
+[`agent/`](agent/README.md) · [`backend/`](backend/README.md) · [`frontend/`](frontend/README.md)
+
+## License
+
+MIT. See [`LICENSE`](LICENSE).
