@@ -16,7 +16,7 @@ repos:
   # Python: ruff resolves config per file, so backend/ and agent/ each use their
   # own pyproject.toml. The frontend has no .py files, so ruff skips it.
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.14.3
+    rev: v0.15.16
     hooks:
       - id: ruff
         args:
