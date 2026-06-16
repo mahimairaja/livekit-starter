@@ -61,7 +61,22 @@ The backend and agent share the same LiveKit credentials, so a backend-minted
 token is valid for the room the agent joins. Works against self-hosted LiveKit
 or LiveKit Cloud.
 
-## Quickstart
+## Run with Docker
+
+The fastest path. One command brings up Postgres, the backend, the agent, and the
+frontend together:
+
+```bash
+cp .env.example .env     # fill in LIVEKIT_* + OPENAI/DEEPGRAM/CARTESIA
+docker compose up --build
+```
+
+Open `http://localhost:5173` and click **Start conversation**. Uses an external
+LiveKit project (a free LiveKit Cloud project works). The voice demo needs no
+database; for the auth/User endpoints, run once:
+`docker compose exec backend alembic upgrade head`.
+
+## Run manually
 
 You'll need a LiveKit project (URL + API key/secret) and provider keys
 (OpenAI, Deepgram, Cartesia). Run each in its own terminal:

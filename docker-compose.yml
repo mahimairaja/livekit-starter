@@ -1,0 +1,55 @@
+# One-command local stack: Postgres + backend (token server) + agent + frontend.
+# Uses an EXTERNAL LiveKit project via LIVEKIT_URL (a LiveKit Cloud free project works).
+#
+#   cp .env.example .env        # fill in LIVEKIT_* + OPENAI/DEEPGRAM/CARTESIA
+#   docker compose up --build
+#
+# Then open http://localhost:5173 and click "Start conversation".
+# The voice demo needs no database. For the auth/User endpoints, create the
+# tables once: docker compose exec backend alembic upgrade head
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-postgres}
+      POSTGRES_DB: ${DB_NAME:-app}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres} -d ${DB_NAME:-app}"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  backend:
+    build: ./backend
+    env_file: .env
+    environment:
+      PORT: 8080
+    ports:
+      - "8000:8080" # http://localhost:8000  (docs at /docs)
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+  agent:
+    build: ./agent
+    env_file: .env
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_TOKEN_ENDPOINT: ${VITE_TOKEN_ENDPOINT:-http://localhost:8000/api/v1/token}
+        VITE_AGENT_NAME: ${VITE_AGENT_NAME:-assistant}
+    ports:
+      - "5173:80" # http://localhost:5173
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

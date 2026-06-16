@@ -1,2 +1,6 @@
 .DS_Store
 docs/superpowers
+
+# Root env (copy .env.example -> .env)
+.env
+.env.local
