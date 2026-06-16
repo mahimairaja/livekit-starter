@@ -1,7 +1,7 @@
 <picture>
-<source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png">
-<source media="(prefers-color-scheme: light)" srcset="assets/banner-light.png">
-<img src="docs/assets/banner-light.png" alt="Voice AI: a curated learning path for building real-time voice agents" width="100%" />
+  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png">
+  <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.png">
+  <img src="assets/banner-light.png" alt="LiveKit Voice AI Starter" width="100%" />
 </picture>
 
 <h1 align="center">LiveKit Voice AI Starter</h1>
@@ -14,7 +14,9 @@
 </p>
 
 <p align="center">
+  <!--<a href="https://your-demo-url"><img src="assets/badges/live-demo.svg" alt="Live Demo" height="30"></a>-->
   <a href="https://livekit.io"><img src="assets/badges/livekit.svg" alt="LiveKit" height="30"></a>
+  <img src="assets/badges/voice-first.svg" alt="Voice First" height="30">
   <a href="https://www.python.org"><img src="assets/badges/python.svg" alt="Python" height="30"></a>
   <a href="https://fastapi.tiangolo.com"><img src="assets/badges/fastapi.svg" alt="FastAPI" height="30"></a>
   <a href="https://react.dev"><img src="assets/badges/react.svg" alt="React" height="30"></a>
