@@ -1,0 +1,36 @@
+coverage:
+  precision: 2
+  round: down
+  range: "70...100"
+  status:
+    project:
+      default:
+        # Informational on a template: report coverage without failing CI.
+        target: auto
+        threshold: 1%
+        informational: true
+    patch:
+      default:
+        target: 80%
+        informational: true
+
+# Per-package flags. CI uploads coverage with these flag names (backend, agent,
+# frontend); keep the upload steps in .github/workflows in sync.
+flag_management:
+  default_rules:
+    carryforward: true
+  individual_flags:
+    - name: backend
+      paths:
+        - backend/src
+    - name: agent
+      paths:
+        - agent/src
+    - name: frontend
+      paths:
+        - frontend/src
+
+comment:
+  layout: "reach,diff,flags,files,footer"
+  behavior: default
+  require_changes: false
