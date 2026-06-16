@@ -6,7 +6,14 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  // Vendored copy-in components (managed by `shadcn add`), not linted to our rules.
+  globalIgnores([
+    'dist',
+    'src/components/ui/**',
+    'src/components/agents-ui/**',
+    'src/components/ai-elements/**',
+    'src/hooks/agents-ui/**',
+  ]),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [

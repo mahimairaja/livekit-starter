@@ -1,0 +1,42 @@
+default_language_version:
+  python: python3
+
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v6.0.0
+    hooks:
+      - id: check-added-large-files
+        exclude: (^|/)uv\.lock$|(^|/)pnpm-lock\.yaml$
+      - id: check-toml
+      - id: check-yaml
+        args:
+          - --unsafe
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  # Python: ruff resolves config per file, so backend/ and agent/ each use their
+  # own pyproject.toml. The frontend has no .py files, so ruff skips it.
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.14.3
+    hooks:
+      - id: ruff
+        args:
+          - --fix
+      - id: ruff-format
+  # Frontend: run the project's own eslint (needs node + pnpm on PATH). Runs once
+  # per commit that touches frontend TS/TSX, linting only our code (vendored
+  # shadcn/agents-ui components are ignored in eslint.config.js).
+  - repo: local
+    hooks:
+      - id: frontend-eslint
+        name: eslint (frontend)
+        entry: bash -c 'cd frontend && pnpm run lint'
+        language: system
+        files: ^frontend/.*\.(ts|tsx)$
+        pass_filenames: false
+
+ci:
+  autofix_commit_msg: 🎨 [pre-commit.ci] Auto format from pre-commit.com hooks
+  autoupdate_commit_msg: ⬆ [pre-commit.ci] pre-commit autoupdate
+  # frontend-eslint is a system hook (needs node/pnpm); skip it on pre-commit.ci.
+  skip:
+    - frontend-eslint
