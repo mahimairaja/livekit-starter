@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="86" height="30" role="img" aria-label="React">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1f2a"/><stop offset="1" stop-color="#12141b"/></linearGradient></defs>
+  <rect x="0.5" y="0.5" width="85" height="29" rx="14.5" fill="url(#bg)" stroke="#2b3140"/>
+  <g transform="translate(18,15)" fill="none" stroke="#61DAFB" stroke-width="1.2">
+    <ellipse rx="8" ry="3"/>
+    <ellipse rx="8" ry="3" transform="rotate(60)"/>
+    <ellipse rx="8" ry="3" transform="rotate(120)"/>
+    <circle r="1.7" fill="#61DAFB" stroke="none"/>
+  </g>
+  <text x="33" y="20" textLength="40" lengthAdjust="spacingAndGlyphs" font-family="'Segoe UI',system-ui,-apple-system,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" fill="#e8eaf0">React</text>
+</svg>

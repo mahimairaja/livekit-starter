@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="94" height="30" role="img" aria-label="Python">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1f2a"/><stop offset="1" stop-color="#12141b"/></linearGradient></defs>
+  <rect x="0.5" y="0.5" width="93" height="29" rx="14.5" fill="url(#bg)" stroke="#2b3140"/>
+  <rect x="11.5" y="8" width="9" height="9" rx="2.5" fill="#4B8BBE"/>
+  <rect x="15.5" y="13" width="9" height="9" rx="2.5" fill="#FFD43B"/>
+  <text x="33" y="20" textLength="48" lengthAdjust="spacingAndGlyphs" font-family="'Segoe UI',system-ui,-apple-system,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" fill="#e8eaf0">Python</text>
+</svg>

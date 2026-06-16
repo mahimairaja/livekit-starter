@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="110" height="30" role="img" aria-label="Tailwind CSS">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1f2a"/><stop offset="1" stop-color="#12141b"/></linearGradient></defs>
+  <rect x="0.5" y="0.5" width="109" height="29" rx="14.5" fill="url(#bg)" stroke="#2b3140"/>
+  <g fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round">
+    <path d="M11.5 14 C13.5 10.5, 15.5 10.5, 17.5 14 C18.8 16.3, 20.1 16.3, 21.5 14"/>
+    <path d="M14.5 18 C16.5 14.5, 18.5 14.5, 20.5 18 C21.8 20.3, 23.1 20.3, 24.5 18"/>
+  </g>
+  <text x="33" y="20" textLength="64" lengthAdjust="spacingAndGlyphs" font-family="'Segoe UI',system-ui,-apple-system,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" fill="#e8eaf0">Tailwind</text>
+</svg>

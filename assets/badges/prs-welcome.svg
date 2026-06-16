@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="134" height="30" role="img" aria-label="PRs welcome">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1f2a"/><stop offset="1" stop-color="#12141b"/></linearGradient></defs>
+  <rect x="0.5" y="0.5" width="133" height="29" rx="14.5" fill="url(#bg)" stroke="#2b3140"/>
+  <g fill="none" stroke="#C084FC" stroke-width="1.6" stroke-linecap="round">
+    <line x1="14" y1="11" x2="14" y2="19"/>
+    <path d="M14 15 C14 12, 19 12, 22 12"/>
+  </g>
+  <g fill="#C084FC">
+    <circle cx="14" cy="9" r="2.2"/>
+    <circle cx="14" cy="21" r="2.2"/>
+    <circle cx="22" cy="12" r="2.2"/>
+  </g>
+  <text x="33" y="20" textLength="88" lengthAdjust="spacingAndGlyphs" font-family="'Segoe UI',system-ui,-apple-system,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" fill="#e8eaf0">PRs welcome</text>
+</svg>

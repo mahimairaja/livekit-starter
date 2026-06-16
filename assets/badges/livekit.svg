@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="102" height="30" role="img" aria-label="LiveKit">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1f2a"/><stop offset="1" stop-color="#12141b"/></linearGradient></defs>
+  <rect x="0.5" y="0.5" width="101" height="29" rx="14.5" fill="url(#bg)" stroke="#2b3140"/>
+  <g fill="#22D3EE">
+    <rect x="12" y="11" width="2.2" height="8" rx="1.1"/>
+    <rect x="15.2" y="8" width="2.2" height="14" rx="1.1"/>
+    <rect x="18.4" y="10" width="2.2" height="10" rx="1.1"/>
+    <rect x="21.6" y="12.5" width="2.2" height="6" rx="1.1"/>
+  </g>
+  <text x="33" y="20" textLength="56" lengthAdjust="spacingAndGlyphs" font-family="'Segoe UI',system-ui,-apple-system,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" fill="#e8eaf0">LiveKit</text>
+</svg>

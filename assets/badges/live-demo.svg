@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="118" height="30" role="img" aria-label="Live Demo">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1f2a"/><stop offset="1" stop-color="#12141b"/></linearGradient></defs>
+  <rect x="0.5" y="0.5" width="117" height="29" rx="14.5" fill="url(#bg)" stroke="#2b3140"/>
+  <circle cx="18" cy="15" r="7.5" fill="none" stroke="#22C55E" stroke-width="1.4"/>
+  <path d="M16 11.5 L22 15 L16 18.5 Z" fill="#22C55E"/>
+  <text x="32" y="20" textLength="72" lengthAdjust="spacingAndGlyphs" font-family="'Segoe UI',system-ui,-apple-system,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" fill="#e8eaf0">Live Demo</text>
+</svg>

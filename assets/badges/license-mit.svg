@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="134" height="30" role="img" aria-label="MIT License">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1b1f2a"/><stop offset="1" stop-color="#12141b"/></linearGradient></defs>
+  <rect x="0.5" y="0.5" width="133" height="29" rx="14.5" fill="url(#bg)" stroke="#2b3140"/>
+  <g stroke="#2DD4BF" stroke-width="1.4" fill="none" stroke-linecap="round">
+    <line x1="18" y1="8" x2="18" y2="20"/>
+    <line x1="12" y1="11" x2="24" y2="11"/>
+    <line x1="12" y1="11" x2="12" y2="12.6"/>
+    <line x1="24" y1="11" x2="24" y2="12.6"/>
+    <path d="M9.8 15 a2.4 2.4 0 0 0 4.4 0"/>
+    <path d="M21.8 15 a2.4 2.4 0 0 0 4.4 0"/>
+    <line x1="15" y1="20" x2="21" y2="20"/>
+  </g>
+  <text x="33" y="20" textLength="88" lengthAdjust="spacingAndGlyphs" font-family="'Segoe UI',system-ui,-apple-system,Helvetica,Arial,sans-serif" font-size="13" font-weight="600" fill="#e8eaf0">MIT License</text>
+</svg>
