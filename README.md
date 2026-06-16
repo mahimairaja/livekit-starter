@@ -1,7 +1,7 @@
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.png">
-  <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.png">
-  <img src="assets/banner-light.png" alt="LiveKit Voice AI Starter" width="100%" />
+  <source media="(prefers-color-scheme: dark)" srcset="assets/banner-dark.webp">
+  <source media="(prefers-color-scheme: light)" srcset="assets/banner-light.webp">
+  <img src="assets/banner-light.webp" alt="LiveKit Voice AI Starter" width="100%" />
 </picture>
 
 <h1 align="center">LiveKit Voice AI Starter</h1>
