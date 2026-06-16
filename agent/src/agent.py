@@ -8,15 +8,15 @@ from livekit.agents import (
     AgentSession,
     JobContext,
     JobProcess,
+    TurnHandlingOptions,
     cli,
-    metrics,
 )
 from livekit.plugins import cartesia, deepgram, openai, silero
 from livekit.plugins.turn_detector.multilingual import MultilingualModel
 
 from src.agents.assistant import Assistant
 from src.core.config import config
-from src.core.events import log_usage_summary, register_event_handlers
+from src.core.events import register_event_handlers
 from src.utils.room import identify
 
 logger = logging.getLogger("agent")
@@ -55,23 +55,23 @@ async def entrypoint(ctx: JobContext) -> None:
     if not CONSOLE_MODE:
         participant = await ctx.wait_for_participant()
         caller = identify(participant)
-        logger.info(
-            "participant joined: kind=%s identity=%s", caller.kind, caller.identity
-        )
+        logger.info("participant joined: kind=%s identity=%s", caller.kind, caller.identity)
 
     session: AgentSession = AgentSession(
         stt=deepgram.STT(model="nova-3"),
         llm=openai.LLM(model="gpt-4.1-mini"),
         tts=cartesia.TTS(),
         vad=ctx.proc.userdata["vad"],
-        turn_detection=MultilingualModel(),
+        turn_handling=TurnHandlingOptions(
+            turn_detection=MultilingualModel(),
+            interruption={"mode": "vad"},
+        ),
     )
 
-    usage = metrics.UsageCollector()
-    register_event_handlers(session, usage)
+    log_usage_summary = register_event_handlers(session)
 
     async def _on_shutdown() -> None:
-        log_usage_summary(usage)
+        log_usage_summary()
 
     ctx.add_shutdown_callback(_on_shutdown)
 
