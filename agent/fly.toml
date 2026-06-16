@@ -1,0 +1,25 @@
+app = "agent"
+primary_region = "yyz"
+kill_timeout = "5m0s"
+
+[build]
+dockerfile = "Dockerfile"
+ignorefile = ".dockerignore"
+
+[deploy]
+strategy = "bluegreen"
+
+[env]
+PYTHONUNBUFFERED = "1"
+
+[checks]
+[checks.healthcheck]
+port = 8081
+type = "tcp"
+interval = "10s"
+timeout = "2s"
+grace_period = "3m0s"
+
+[[vm]]
+size = "performance-1x"
+memory = "4gb"
