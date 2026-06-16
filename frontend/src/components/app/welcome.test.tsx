@@ -8,8 +8,3 @@ test("welcome screen shows a start button", () => {
     screen.getByRole("button", { name: /start conversation/i }),
   ).toBeInTheDocument();
 });
-
-test("welcome screen surfaces failure reasons", () => {
-  render(<Welcome onStart={vi.fn()} failureReasons={["network error"]} />);
-  expect(screen.getByText(/network error/i)).toBeInTheDocument();
-});

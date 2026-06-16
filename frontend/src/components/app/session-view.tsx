@@ -1,17 +1,16 @@
-import { useAgent, useSessionMessages } from "@livekit/components-react";
+import {
+  useAgent,
+  useSessionContext,
+  useSessionMessages,
+} from "@livekit/components-react";
 import { AgentAudioVisualizerBar } from "@/components/agents-ui/agent-audio-visualizer-bar";
 import { AgentChatTranscript } from "@/components/agents-ui/agent-chat-transcript";
 import { AgentControlBar } from "@/components/agents-ui/agent-control-bar";
 
-export function SessionView({
-  isConnected,
-  onDisconnect,
-}: {
-  isConnected: boolean;
-  onDisconnect: () => void;
-}) {
+export function SessionView({ onDisconnect }: { onDisconnect: () => void }) {
   const { state, microphoneTrack } = useAgent();
   const { messages } = useSessionMessages();
+  const { isConnected } = useSessionContext();
 
   return (
     <div className="mx-auto flex min-h-screen w-full max-w-2xl flex-col gap-4 p-4">
