@@ -14,5 +14,21 @@ export default defineConfig({
     environment: "jsdom",
     globals: true,
     setupFiles: "./src/test-setup.ts",
+    coverage: {
+      provider: "v8",
+      reporter: ["text", "lcov"],
+      // Measure only our code; the vendored shadcn/agents-ui components are excluded.
+      include: ["src/**/*.{ts,tsx}"],
+      exclude: [
+        "src/components/ui/**",
+        "src/components/agents-ui/**",
+        "src/components/ai-elements/**",
+        "src/hooks/agents-ui/**",
+        "src/**/*.test.{ts,tsx}",
+        "src/test-setup.ts",
+        "src/vite-env.d.ts",
+        "src/main.tsx",
+      ],
+    },
   },
 });
